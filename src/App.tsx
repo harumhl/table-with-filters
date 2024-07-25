@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TabulatorFull as Tabulator, Options } from "tabulator-tables";
 import "./App.css";
 import "../node_modules/tabulator-tables/dist/css/tabulator_semanticui.min.css";
@@ -127,13 +127,16 @@ var tabulatorOptions = {
 } as Options;
 
 function App() {
+  const [table, setTable] = useState<Tabulator>();
+
   useEffect(() => {
-    // Initial table setup
-    new Tabulator("#tabulator-table", tabulatorOptions);
+    // Initial table setup - wait till the <div id="tabulator-table"> is ready
+    setTable(new Tabulator("#tabulator-table", tabulatorOptions));
   }, []);
 
   return (
     <div className="App">
+      <button onClick={() => table?.undo()}>Undo</button>
       <div id="tabulator-table"></div>
     </div>
   );
