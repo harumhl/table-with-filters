@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { TabulatorFull as Tabulator, Options } from "tabulator-tables";
 import "./App.css";
+import "../node_modules/tabulator-tables/dist/css/tabulator_semanticui.min.css";
 
 var tabledata = [
   {
@@ -127,11 +128,13 @@ var tabulatorOptions = {
 
 function App() {
   useEffect(() => {
-    var table = new Tabulator("#example-table", tabulatorOptions);
-  });
+    // Initial table setup
+    new Tabulator("#tabulator-table", tabulatorOptions);
+  }, []);
+
   return (
     <div className="App">
-      <div id="example-table"></div>
+      <div id="tabulator-table"></div>
     </div>
   );
 }

@@ -1,3 +1,5 @@
+@import  "~/node_modules/tabulator-tables/dist/css/tabulator_semanticui.min.css"; /* (blank), bootstrap3, modern, semanticui, site_dark are decent themes */
+
 .App {
   text-align: center;
 }
