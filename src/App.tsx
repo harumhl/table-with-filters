@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-
-import { createGrid, GridApi, GridOptions } from "ag-grid-community";
+import { GridOptions } from "ag-grid-community";
+import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
@@ -35,21 +34,15 @@ const gridOptions: GridOptions<IRow> = {
   },
 };
 
-
 function App() {
-  useEffect(() => {
-    const gridApi: GridApi = createGrid(
-      document.querySelector<HTMLElement>("#myGrid")!,
-      gridOptions
-    );  
-  });
   return (
     <div className="App">
       <div
-        id="myGrid"
-        className="ag-theme-quartz"
-        style={{ height: "500px" }}
-      ></div>
+        className="ag-theme-quartz" // applying the Data Grid theme
+        style={{ height: 500 }} // the Data Grid will fill the size of the parent container
+      >
+        <AgGridReact {...gridOptions} />
+      </div>
     </div>
   );
 }
