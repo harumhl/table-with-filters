@@ -10,10 +10,17 @@ import { Car, Make } from "./dto/car";
 import { getData } from "./api/car";
 import "./App.css";
 
+const ElectricAll = null;
+
 const Filter: React.FC<{
   filters: Car;
   setFilters: (newFilters: Car) => void;
 }> = ({ filters, setFilters }) => {
+  const electricFilterOptions: { option: string; value: boolean }[] = [
+    { option: "All", value: ElectricAll! },
+    { option: "Electric only", value: true },
+    { option: "Non electric only", value: false },
+  ];
   return (
     <>
       <h2>Filter Options</h2>
@@ -40,6 +47,25 @@ const Filter: React.FC<{
           }}
         ></input>
       </div>
+      <div>
+        <Dropdown
+          title="Electric"
+          value={
+            electricFilterOptions.find((o) => o.value === filters.electric)
+              ?.option!
+          }
+          options={electricFilterOptions.map((o) => o.option)}
+          onChange={(newElectric: string) => {
+            const electricFilterOption = electricFilterOptions.find(
+              (o) => o.option === newElectric
+            );
+            setFilters({
+              ...filters,
+              electric: electricFilterOption?.value!,
+            });
+          }}
+        />
+      </div>
     </>
   );
 };
@@ -51,7 +77,8 @@ const Grid: React.FC<{ data: Car[]; filters: Car }> = ({
   const filteredCars = cars.filter(
     (car) =>
       [Make.All, car.make].includes(filters.make) &&
-      car.model.toLowerCase().includes(filters.model.toLowerCase())
+      car.model.toLowerCase().includes(filters.model.toLowerCase()) &&
+      [ElectricAll, car.electric].includes(filters.electric)
   );
 
   const columnDefs: ColDef<Car>[] = [
