@@ -1,0 +1,20 @@
+.grid-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 100%;
+}
+
+.ag-grid {
+  width: 80%;
+  height: calc(100% - 40px);
+}
+
+@media (max-width: 600px) {
+  /* for smaller screens */
+  .ag-grid {
+    width: 90%;
+  }
+}

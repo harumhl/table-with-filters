@@ -17,38 +17,3 @@
   padding-top: 20px;
   padding-bottom: 20px;
 }
-
-.grid-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  height: 100%;
-}
-
-.ag-grid {
-  width: 80%;
-  height: calc(100% - 40px);
-}
-
-.input-label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-.model-input {
-  width: 100%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  font-size: 16px;
-  margin-bottom: 20px;
-}
-
-@media (max-width: 600px) {
-  /* for smaller screens */
-  .ag-theme-quartz {
-    width: 90%;
-  }
-}

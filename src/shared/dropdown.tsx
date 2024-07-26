@@ -9,14 +9,14 @@ interface DropdownProps<T> {
   getOptionValue?: (option: T) => string | number;
 }
 
-export const Dropdown = <T extends {}>({
+export function Dropdown<T>({
   title,
   value,
   options,
   onChange,
   getOptionLabel = (option) => `${option}`,
   getOptionValue = (option) => `${option}`,
-}: DropdownProps<T>) => {
+}: DropdownProps<T>) {
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOption = options.find(
       (option) => getOptionValue(option).toString() === event.target.value

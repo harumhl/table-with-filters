@@ -1,0 +1,13 @@
+.input-label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.model-input {
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
