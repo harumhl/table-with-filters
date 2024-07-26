@@ -1,49 +1,115 @@
 import { useEffect, useState } from "react";
 
-import { GridOptions } from "ag-grid-community";
+import { ColDef, GridOptions } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
-import { Car } from "./dto/car";
+import { Dropdown } from "./shared/dropdown";
+import { Car, Make } from "./dto/car";
 import { getData } from "./api/car";
 import "./App.css";
 
-const gridOptions: GridOptions<Car> = {
-  // Columns to be displayed (Should match rowData properties)
-  columnDefs: [
-    { field: "make", filter: true },
-    { field: "model", filter: true },
-    { field: "price", filter: true },
-    { field: "electric", filter: true },
-  ],
-  defaultColDef: {
-    flex: 1,
-  },
-  // Pagination
-  pagination: true,
-  paginationPageSize: 10,
-  paginationPageSizeSelector: [10, 500, 1000],
+const Filter: React.FC<{
+  filters: Car;
+  setFilters: (newFilters: Car) => void;
+}> = ({ filters, setFilters }) => {
+  return (
+    <>
+      <h2>Filter Options</h2>
+      <Dropdown
+        title="Make"
+        value={filters.make}
+        options={Object.values(Make)}
+        onChange={(newMake: Make) => {
+          setFilters({
+            ...filters,
+            make: newMake,
+          });
+        }}
+      />
+      <div>
+        <label className="input-label">Model:</label>
+        <input
+          className="model-input"
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setFilters({
+              ...filters,
+              model: event.target.value,
+            });
+          }}
+        ></input>
+      </div>
+    </>
+  );
+};
+
+const Grid: React.FC<{ data: Car[]; filters: Car }> = ({
+  data: cars,
+  filters,
+}) => {
+  const filteredCars = cars.filter(
+    (car) =>
+      [Make.All, car.make].includes(filters.make) &&
+      car.model.toLowerCase().includes(filters.model.toLowerCase())
+  );
+
+  const columnDefs: ColDef<Car>[] = [
+    { headerName: "Make", field: "make" },
+    { headerName: "Model", field: "model" },
+    { headerName: "Price", field: "price" },
+    {
+      headerName: "Electric",
+      field: "electric",
+      valueFormatter: (params) => (params.value ? "Yes" : "No"),
+    },
+  ];
+  const gridOptions: GridOptions<Car> = {
+    defaultColDef: {
+      flex: 1,
+    },
+    // Pagination
+    pagination: true,
+    paginationPageSize: 5,
+    paginationPageSizeSelector: [5, 500, 1000],
+  };
+
+  return (
+    <div className="grid-container">
+      <div className="ag-theme-quartz ag-grid">
+        <AgGridReact
+          rowData={filteredCars}
+          columnDefs={columnDefs}
+          {...gridOptions}
+        />
+      </div>
+    </div>
+  );
 };
 
 function App() {
-  const [data, setData] = useState<Car[]>();
+  const [data, setData] = useState<Car[]>([]);
+  const [filters, setFilters] = useState<Car>({
+    make: Make.All,
+    model: "",
+    price: -1,
+    electric: null!,
+  });
 
   useEffect(() => {
     async function fetchData() {
-      const d = await getData();
-      setData(d);
+      setData(await getData());
     }
     fetchData();
   }, []);
 
   return (
-    <div className="App">
-      <div
-        className="ag-theme-quartz" // applying the Data Grid theme
-        style={{ height: 500 }} // the Data Grid will fill the size of the parent container
-      >
-        <AgGridReact rowData={data} {...gridOptions} />
+    <div className="app">
+      <div className="sidebar-component">
+        <Filter filters={filters} setFilters={setFilters} />
+      </div>
+      <div className="grid-component">
+        <Grid data={data} filters={filters} />
       </div>
     </div>
   );

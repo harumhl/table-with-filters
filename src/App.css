@@ -1,38 +1,54 @@
-.App {
+.app {
+  display: flex;
+  height: 100vh;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.sidebar-component {
+  width: 20%;
+  max-width: 250px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-right: 1px solid #ddd;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.grid-component {
+  flex-grow: 1;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.grid-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.ag-grid {
+  width: 80%;
+  height: calc(100% - 40px);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.input-label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.model-input {
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+  /* for smaller screens */
+  .ag-theme-quartz {
+    width: 90%;
   }
 }
